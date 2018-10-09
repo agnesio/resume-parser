@@ -7,6 +7,7 @@ const _ = require('underscore'),
 /**
  *
  * @constructor
+ * Parse Boy
  */
 function ParseBoy() {}
 

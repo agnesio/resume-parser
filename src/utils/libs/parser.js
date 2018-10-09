@@ -14,15 +14,21 @@ module.exports = {
 };
 
 function makeRegExpFromDictionary() {
+
+
   var regularRules = {
     titles: {},
     profiles: [],
     inline: {},
   };
 
+
+
+
   _.forEach(dictionary.titles, function(titles, key) {
     regularRules.titles[key] = [];
     _.forEach(titles, function(title) {
+
       regularRules.titles[key].push(title.toUpperCase());
       regularRules.titles[key].push(
         title[0].toUpperCase() + title.substr(1, title.length)
@@ -60,6 +66,7 @@ function makeRegExpFromDictionary() {
 // dictionary is object, so it will be extended by reference
 makeRegExpFromDictionary();
 
+//parse
 function parse(PreparedFile, cbReturnResume) {
   var rawFileData = PreparedFile.raw,
     Resume = new resume(),
@@ -71,6 +78,7 @@ function parse(PreparedFile, cbReturnResume) {
 
   // 1 parse regulars
   parseDictionaryRegular(rawFileData, Resume);
+  parseDictionaryOther(rawFileData,Resume);
 
   for (var i = 0; i < rows.length; i++) {
     row = rows[i];
@@ -78,7 +86,7 @@ function parse(PreparedFile, cbReturnResume) {
     // 2 parse profiles
     row = rows[i] = parseDictionaryProfiles(row, Resume);
     // 3 parse titles
-    parseDictionaryTitles(Resume, rows, i);
+    parseDictionaryTitles(Resume, rows, i); //parse Disctio
     parseDictionaryInline(Resume, row);
   }
 
@@ -149,9 +157,13 @@ function parseDictionaryInline(Resume, row) {
  * @param data
  * @param Resume
  */
+
+//parse Dictionary Regular
 function parseDictionaryRegular(data, Resume) {
-  var regularDictionary = dictionary.regular,
+  console.log(data);
+  var regularDictionary = dictionary.regular, //its the name, email and phone (Apply the regular Expression)
     find;
+
 
   _.forEach(regularDictionary, function(expressions, key) {
     _.forEach(expressions, function(expression) {
@@ -163,6 +175,20 @@ function parseDictionaryRegular(data, Resume) {
   });
 }
 
+
+
+function parseDictionaryOther(data, Resume) {
+  console.log(data);
+  var regularDictionary = dictionary.other, //its the name, email and phone (Apply the regular Expression)
+    find;
+
+  Resume.addKey('other', data);
+
+
+
+}
+
+
 /**
  *
  * @param Resume
@@ -171,20 +197,26 @@ function parseDictionaryRegular(data, Resume) {
  */
 function parseDictionaryTitles(Resume, rows, rowIdx) {
   var allTitles = _.flatten(_.toArray(dictionary.titles)).join('|'),
+
+
+
     searchExpression = '',
-    row = rows[rowIdx],
+    row = rows[rowIdx],//rows
     ruleExpression,
     isRuleFound,
     result;
 
+    //for Each dictionary.titles
   _.forEach(dictionary.titles, function(expressions, key) {
     expressions = expressions || [];
+    //console.log(expressions); //expressions
     // means, that titled row is less than 5 words
     if (countWords(row) <= 5) {
       _.forEach(expressions, function(expression) {
         ruleExpression = new RegExp(expression);
         isRuleFound = ruleExpression.test(row);
 
+        //isRuleFound
         if (isRuleFound) {
           allTitles = _.without(allTitles.split('|'), key).join('|');
           searchExpression =
@@ -194,7 +226,8 @@ function parseDictionaryTitles(Resume, rows, rowIdx) {
             restoreTextByRows(rowIdx, rows)
           );
 
-          if (result) {
+          //result
+          if(result){
             Resume.addKey(key, result[1]);
           }
         }

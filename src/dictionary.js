@@ -1,8 +1,10 @@
 var request = require('request');
 var cheerio = require('cheerio');
-var _ = require('underscore');
+var _       = require('underscore');//underScore
 
+//Module Exports
 module.exports = {
+  //titles
   titles: {
     objective: ['objective', 'objectives'],
     summary: ['summary'],
@@ -26,7 +28,7 @@ module.exports = {
     honors: ['honors'],
     additional: ['additional'],
     certification: ['certification', 'certifications'],
-    interests: ['interests'],
+    interests: ['interests']
   },
   profiles: [
     [
@@ -49,9 +51,9 @@ module.exports = {
                 .parent()
                 .text(),
               company = $('.octicon-organization')
+            Resume
                 .parent()
                 .text();
-
             Resume.addObject('github', {
               name: fullName,
               location: location,
@@ -158,6 +160,7 @@ module.exports = {
     email: [/([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})/],
     phone: [/((?:\+?\d{1,3}[\s-])?\(?\d{2,3}\)?[\s.-]?\d{3}[\s.-]\d{4,5})/],
   },
+  other:""
 };
 
 // helper method

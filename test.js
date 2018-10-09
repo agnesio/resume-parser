@@ -11,7 +11,7 @@ const ResumeParser = require('./src');
 //     console.error(error);
 //   });
 
-ResumeParser.parseResumeUrl('http://www.mysite.com/resume.txt') // url
+ResumeParser.parseResumeUrl('https://webflow.com/files/5bad090c54fd3cec09571c85/formUploads/10d7c99a-d9f1-4eaa-9d89-292d7f2dc18f.pdf') // url
   .then(data => {
     console.log('Yay! ', data);
   })
